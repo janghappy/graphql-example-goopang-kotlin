@@ -1,0 +1,5 @@
+union SearchResult = User | Electronics | Clothing
+
+extend type Query {
+    search(keyword: String!): [SearchResult!]!
+}

@@ -1,0 +1,31 @@
+type CartItem {
+    id: ID!
+    product: Product!
+    quantity: Int!
+}
+
+type Cart {
+    id: ID!
+    user: User!
+    items: [CartItem!]!
+    totalAmount: Float!
+}
+
+input AddCartItemInput {
+    userId: ID!
+    productId: ID!
+    quantity: Int!
+}
+
+input DeleteCartItemInput {
+    cartItemId: ID!
+}
+
+extend type Query {
+    getUserCart(userId: ID!): Cart!
+}
+
+extend type Mutation {
+    addCartItem(addCartItemInput: AddCartItemInput!): Cart!
+    deleteCartItem(deleteCartItemInput: DeleteCartItemInput!): Cart!
+}

@@ -1,0 +1,20 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    cart: Cart!
+    createdAt: String!
+}
+
+input AddUserInput {
+    name: String!
+    email: String!
+}
+
+extend type Query {
+    getUser(userId: ID!): User!
+}
+
+extend type Mutation {
+    addUser(addUserInput: AddUserInput!): User!
+}
