@@ -1,2 +1,11 @@
 server:
   port: 8081
+
+spring:
+  graphql:
+    websocket:
+      path: /graphql
+    # 로컬 개발용: Altair 등 다른 출처의 클라이언트에서 HTTP/WebSocket 연결 허용
+    cors:
+      allowed-origin-patterns: "*"
+      allowed-methods: "*"

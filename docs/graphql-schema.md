@@ -261,7 +261,9 @@ subscription NewProduct {
 }
 ```
 
-> Subscription을 실제로 동작시키려면 `spring-boot-starter-websocket` 의존성과 WebSocket 경로 설정이 필요합니다. 아직 추가하지 않았습니다.
+### Subscription 구현
+
+`@SubscriptionMapping`, Sinks를 이용한 이벤트 발행, WebSocket(`graphql-transport-ws`) 설정과 Origin 검사, SSE는 [Subscription 구현 정리](graphql-subscription.md)에 따로 정리했습니다.
 
 ---
 

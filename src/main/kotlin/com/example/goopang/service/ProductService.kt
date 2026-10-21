@@ -8,10 +8,19 @@ import com.example.goopang.exception.ClientException
 import com.example.goopang.input.AddProductInput
 import com.example.goopang.repository.Database
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Sinks
 import java.util.UUID
 
 @Service
 class ProductService {
+
+	// 구독 이후에 추가된 상품만 전달한다 (구독자가 없을 때 발행된 상품은 버퍼링하지 않음)
+	private val productSink =
+		Sinks
+			.many()
+			.multicast()
+			.directBestEffort<Product>()
 
 	fun getProduct(productId: String): Product {
 		return Database.products.firstOrNull { it.id == productId }
@@ -48,6 +57,19 @@ class ProductService {
 		}
 		Database.products.add(product)
 
+		productSink.tryEmitNext(product)
+
 		return product
+	}
+
+	fun messageFlux(productName: String?): Flux<Product> {
+		return productSink.asFlux()
+			.let { flux ->
+				if (productName != null) {
+					flux.filter { it.name.contains(productName) }
+				} else {
+					flux
+				}
+			}
 	}
 }

@@ -23,6 +23,7 @@
 ```
 
 - GraphQL 엔드포인트: `http://localhost:8081/graphql`
+- Subscription(WebSocket): `ws://localhost:8081/graphql` (`graphql-transport-ws` 프로토콜)
 - 테스트 클라이언트: [Altair GraphQL Client](https://altairgraphql.dev/)
 
 ## 프로젝트 구조
@@ -37,9 +38,9 @@ src/main/
 │   ├── input/                         # AddUserInput, AddCartItemInput, DeleteCartItemInput, AddProductInput
 │   ├── repository/Database.kt         # 인메모리 샘플 데이터
 │   ├── service/                       # UserService, CartService, ProductService
-│   └── resolver/                      # UserResolver, CartResolver, ProductResolver (@QueryMapping, @MutationMapping)
+│   └── resolver/                      # UserResolver, CartResolver, ProductResolver (@QueryMapping, @MutationMapping, @SubscriptionMapping)
 └── resources/
-    ├── application.yaml               # 포트 8081
+    ├── application.yaml               # 포트 8081, WebSocket 경로 /graphql, CORS(로컬 개발용 전체 허용)
     └── graphql/
         ├── schema.graphqls            # 루트 타입 선언, 공용 scalar
         ├── user/user.graphqls
@@ -54,3 +55,4 @@ src/main/
 
 - [GraphQL 개요](docs/graphql-overview.md): GraphQL 개념, REST 비교, 생태계, 클라이언트/서버 문법, 구팡 기능
 - [GraphQL 스키마 정리](docs/graphql-schema.md): Object Type, Custom Scalar, Query/Mutation/Subscription, Input, Union
+- [Subscription 구현 정리](docs/graphql-subscription.md): @SubscriptionMapping, Sinks, WebSocket(graphql-transport-ws), Origin 검사, SSE

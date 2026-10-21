@@ -6,7 +6,9 @@ import com.example.goopang.service.ProductService
 import org.springframework.graphql.data.method.annotation.Argument
 import org.springframework.graphql.data.method.annotation.MutationMapping
 import org.springframework.graphql.data.method.annotation.QueryMapping
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping
 import org.springframework.stereotype.Controller
+import reactor.core.publisher.Flux
 
 @Controller
 class ProductResolver(
@@ -23,5 +25,12 @@ class ProductResolver(
 		@Argument addProductInput: AddProductInput,
 	): Product {
 		return productService.addProduct(addProductInput)
+	}
+
+	@SubscriptionMapping
+	fun newProduct(
+		@Argument productName: String?,
+	): Flux<Product> {
+		return productService.messageFlux(productName)
 	}
 }
