@@ -34,7 +34,10 @@ src/main/
 │   ├── config/GraphQlConfig.kt        # 커스텀 스칼라(DateTime) 등록
 │   ├── entity/                        # User, Product(Electronics, Clothing), Cart, CartItem, SearchResult
 │   ├── exception/                     # ClientException, GraphQlExceptionHandler (메시지를 클라이언트에 전달)
-│   └── repository/Database.kt         # 인메모리 샘플 데이터
+│   ├── input/                         # AddUserInput
+│   ├── repository/Database.kt         # 인메모리 샘플 데이터
+│   ├── service/                       # UserService, CartService
+│   └── resolver/                      # UserResolver (@QueryMapping, @MutationMapping)
 └── resources/
     ├── application.yaml               # 포트 8081
     └── graphql/
