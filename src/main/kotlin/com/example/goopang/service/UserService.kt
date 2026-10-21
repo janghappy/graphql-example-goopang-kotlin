@@ -15,12 +15,10 @@ class UserService(
 
 	fun getUsers(): List<User> {
 		return Database.users
-			.onEach { user -> user.cart = cartService.getUserCart(user.id) }
 	}
 
 	fun getUser(userId: String): User {
 		return Database.users.firstOrNull { it.id == userId }
-			?.also { user -> user.cart = cartService.getUserCart(userId) }
 			?: throw ClientException("User not found: $userId")
 	}
 
@@ -31,6 +29,6 @@ class UserService(
 			email = addUserInput.email,
 			createdAt = OffsetDateTime.now(),
 		).also { user -> Database.users.add(user) }
-			.also { user -> user.cart = cartService.addUserCart(user) }
+			.also { user -> cartService.addUserCart(user) }
 	}
 }
