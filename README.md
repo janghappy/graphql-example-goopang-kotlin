@@ -56,3 +56,4 @@ src/main/
 - [GraphQL 개요](docs/graphql-overview.md): GraphQL 개념, REST 비교, 생태계, 클라이언트/서버 문법, 구팡 기능
 - [GraphQL 스키마 정리](docs/graphql-schema.md): Object Type, Custom Scalar, Query/Mutation/Subscription, Input, Union
 - [Subscription 구현 정리](docs/graphql-subscription.md): @SubscriptionMapping, Sinks, WebSocket(graphql-transport-ws), Origin 검사, SSE
+- [GraphQL 요청 샘플](docs/graphql-requests.md): 도메인별 query/mutation/subscription 샘플, union(`... on`), fragment, 변수
