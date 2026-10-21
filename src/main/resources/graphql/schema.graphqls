@@ -2,3 +2,4 @@ type Query
 type Mutation
 type Subscription
 
+scalar DateTime

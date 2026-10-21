@@ -3,7 +3,7 @@ type User {
     name: String!
     email: String!
     cart: Cart!
-    createdAt: String!
+    createdAt: DateTime!
 }
 
 input AddUserInput {

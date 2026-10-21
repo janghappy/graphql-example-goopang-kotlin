@@ -21,7 +21,7 @@ type User {
     name: String!
     email: String!
     cart: Cart!          # 다른 Object Type 참조
-    createdAt: String!   # 추후 DateTime 커스텀 스칼라로 변경 예정
+    createdAt: DateTime! # 커스텀 스칼라
 }
 
 # cart/cart.graphqls
@@ -105,9 +105,7 @@ enum ProductType {
 
 기본 스칼라로 표현하기 어려운 값(날짜, 큰 정수, URL 등)을 위해 새 스칼라를 선언합니다.
 
-> **현재 상태:** 이 프로젝트는 아직 커스텀 스칼라를 쓰지 않습니다. `User.createdAt`은 임시로 `String!`이고, `scalar DateTime` 선언과 구현 등록도 없습니다. 아래는 나중에 `DateTime`으로 바꿀 때 필요한 내용입니다.
-
-도입할 때는 스키마에 스칼라를 선언하고 필드 타입을 바꿉니다.
+이 프로젝트는 `User.createdAt`에 `DateTime` 스칼라를 씁니다.
 
 ```graphql
 # schema.graphqls
@@ -138,7 +136,7 @@ scalar DateTime @specifiedBy(url: "https://scalars.graphql.org/andimarek/date-ti
 
 graphql-java는 **타입 정의**(`.graphqls` 파일)와 **런타임 와이어링**(스칼라 구현, DataFetcher, 타입 판별 등 서버 코드)을 합쳐서 실행 가능한 스키마를 만듭니다. Spring GraphQL은 시작할 때 `RuntimeWiringConfigurer` 빈을 모두 찾아 `RuntimeWiring.Builder`를 넘겨줍니다.
 
-`ExtendedScalars.DateTime`을 쓰려면 의존성을 추가합니다. graphql-java 버전은 Spring Boot가 관리하며(현재 25.0), extended-scalars는 그에 맞춰 24.0을 씁니다.
+`ExtendedScalars.DateTime`은 별도 라이브러리에 있습니다. graphql-java 버전은 Spring Boot가 관리하며(현재 25.0), extended-scalars는 그에 맞춰 24.0을 씁니다.
 
 ```kotlin
 // build.gradle.kts
@@ -150,9 +148,9 @@ implementation("com.graphql-java:graphql-java-extended-scalars:24.0")
 @Configuration
 class GraphQlConfig {
 
-    @Bean
-    fun runtimeWiringConfigurer(): RuntimeWiringConfigurer =
-        RuntimeWiringConfigurer { it.scalar(ExtendedScalars.DateTime) }
+	@Bean
+	fun runtimeWiringConfigurer(): RuntimeWiringConfigurer =
+		RuntimeWiringConfigurer { it.scalar(ExtendedScalars.DateTime) }
 }
 ```
 
@@ -168,7 +166,7 @@ class GraphQlConfig {
 
 ### ExtendedScalars.DateTime 규칙
 
-> Java 버전 프로젝트에서 extended-scalars 22.0으로 확인한 결과입니다. 24.0에서는 다시 확인하지 않았습니다.
+> extended-scalars 24.0(graphql-java 25.0)에서 직접 확인한 결과입니다.
 
 | 입력 | 결과 |
 |---|---|
@@ -341,7 +339,7 @@ query Search {
 
 ```
 src/main/resources/graphql/
-├── schema.graphqls          # type Query, type Mutation, type Subscription
+├── schema.graphqls          # type Query, type Mutation, type Subscription, scalar DateTime
 ├── user/user.graphqls       # User, AddUserInput + getUser, addUser
 ├── product/product.graphqls # Product, Electronics, Clothing, ProductType, AddProductInput
 │                            # + getProducts, addProduct, newProduct

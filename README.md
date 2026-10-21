@@ -14,6 +14,7 @@
 | Gradle | 9.8.1 (wrapper, Kotlin DSL) |
 | Spring for GraphQL | `spring-boot-starter-graphql` |
 | JSON | `jackson-module-kotlin` (Jackson 3) |
+| 확장 스칼라 | `graphql-java-extended-scalars` 24.0 |
 
 ## 실행
 
@@ -29,11 +30,12 @@
 ```
 src/main/
 ├── kotlin/com/example/goopang/
-│   └── GoopangApplication.kt
+│   ├── GoopangApplication.kt
+│   └── config/GraphQlConfig.kt        # 커스텀 스칼라(DateTime) 등록
 └── resources/
     ├── application.yaml               # 포트 8081
     └── graphql/
-        ├── schema.graphqls            # 루트 타입 선언
+        ├── schema.graphqls            # 루트 타입 선언, 공용 scalar
         ├── user/user.graphqls
         ├── product/product.graphqls
         ├── cart/cart.graphqls
