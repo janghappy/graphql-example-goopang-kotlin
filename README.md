@@ -38,7 +38,7 @@ src/main/
 │   ├── input/                         # AddUserInput, AddCartItemInput, DeleteCartItemInput, AddProductInput
 │   ├── repository/Database.kt         # 인메모리 샘플 데이터
 │   ├── service/                       # UserService, CartService, ProductService
-│   └── resolver/                      # UserResolver, CartResolver, ProductResolver (@QueryMapping, @MutationMapping, @SubscriptionMapping)
+│   └── resolver/                      # UserResolver, CartResolver, ProductResolver, SearchResolver (@QueryMapping, @MutationMapping, @SubscriptionMapping)
 └── resources/
     ├── application.yaml               # 포트 8081, WebSocket 경로 /graphql, CORS(로컬 개발용 전체 허용)
     └── graphql/
