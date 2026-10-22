@@ -38,7 +38,7 @@ src/main/
 │   ├── input/                         # AddUserInput, AddCartItemInput, DeleteCartItemInput, AddProductInput
 │   ├── repository/Database.kt         # 인메모리 샘플 데이터
 │   ├── service/                       # UserService, CartService, ProductService
-│   └── resolver/                      # UserResolver, CartResolver, ProductResolver, SearchResolver (@QueryMapping, @MutationMapping, @SubscriptionMapping, @SchemaMapping)
+│   └── resolver/                      # UserResolver, CartResolver, ProductResolver, SearchResolver (@QueryMapping, @MutationMapping, @SubscriptionMapping, @SchemaMapping, @BatchMapping)
 └── resources/
     ├── application.yaml               # 포트 8081, WebSocket 경로 /graphql, CORS(로컬 개발용 전체 허용)
     └── graphql/
@@ -58,3 +58,4 @@ src/main/
 - [Subscription 구현 정리](docs/graphql-subscription.md): @SubscriptionMapping, Sinks, WebSocket(graphql-transport-ws), Origin 검사, SSE
 - [GraphQL 요청 샘플](docs/graphql-requests.md): 도메인별 query/mutation/subscription 샘플, union(`... on`), fragment, 변수
 - [오버페칭과 @SchemaMapping](docs/graphql-overfetching.md): 네트워크/서버 내부 오버페칭, User.cart 필드 resolver 분리 전후 측정, N+1
+- [N+1 문제와 @BatchMapping](docs/graphql-batchmapping.md): 확인용 User.batchCart(@BatchMapping) 일괄 조회, @SchemaMapping(User.cart)과의 차이(DataLoader), 호출 횟수 비교

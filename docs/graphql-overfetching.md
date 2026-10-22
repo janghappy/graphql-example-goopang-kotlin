@@ -172,7 +172,7 @@ User.cart -> public Cart TmpDuplicateResolver.duplicateCart(User) mapped.
 
 - 부모 목록 조회 1번 + 자식 조회 N번이라 **N+1 문제**라고 부릅니다.
 - **`@SchemaMapping`이 만든 문제는 아닙니다.** 적용 전 구조도 `getUsers`에서 User마다 `getUserCart`를 호출하므로 똑같이 N+1이었고, cart를 요청하지 않아도 N번 실행됐습니다(측정 결과 2회). `@SchemaMapping`은 N+1을 만들지도 없애지도 않고, **필요할 때만 실행되게** 할 뿐입니다.
-- DB를 쓰면 쿼리가 N번 나가므로, 여러 건을 한 번에 조회하는 방법이 필요합니다.
+- DB를 쓰면 쿼리가 N번 나가므로, 여러 건을 한 번에 조회하는 방법이 필요합니다. `@BatchMapping`으로 해결한 과정은 [N+1 문제와 @BatchMapping](graphql-batchmapping.md)에 정리했습니다.
 
 ---
 

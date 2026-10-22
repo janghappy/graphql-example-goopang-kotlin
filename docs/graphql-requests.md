@@ -86,6 +86,46 @@ mutation addUser {
 - 추가된 사용자에게는 빈 장바구니가 함께 만들어집니다.
 - 데이터는 메모리에만 저장되므로 서버를 재시작하면 사라집니다.
 
+### batchCart: @BatchMapping 확인용
+
+`User.batchCart`는 `User.cart`와 **같은 값**을 반환하는 확인용 필드입니다. `cart`는 `@SchemaMapping`(User마다 조회), `batchCart`는 `@BatchMapping`(한 요청의 User를 모아 한 번에 조회)으로 구현되어 있습니다. 응답은 같고 **서버 내부의 조회 횟수만 다릅니다.**
+
+여러 User가 나오는 `search`에서 차이가 드러납니다.
+
+```graphql
+query searchWithCart {
+  search(keyword: "e") {
+    ... on User {
+      name
+      cart { totalAmount }        # User마다 조회 → User 2명이면 2회
+    }
+  }
+}
+
+query searchWithBatchCart {
+  search(keyword: "e") {
+    ... on User {
+      name
+      batchCart { totalAmount }   # 모아서 한 번에 조회 → 1회
+    }
+  }
+}
+```
+
+별칭(alias)으로 여러 필드에 흩어진 User도 한 번에 모이는지 확인할 수 있습니다.
+
+```graphql
+query multiUserBatchCart {
+  a: getUser(userId: "1") { name batchCart { totalAmount } }
+  b: getUser(userId: "2") { name batchCart { totalAmount } }
+  c: getUserCart(userId: "2") { user { name batchCart { id } } }
+}
+```
+
+- `a:`, `b:`, `c:`는 **별칭**입니다. 같은 필드(`getUser`)를 인자만 바꿔 한 요청에서 여러 번 부를 때, 응답 키가 겹치지 않도록 이름을 붙입니다. 응답은 `{"a": {...}, "b": {...}, "c": {...}}` 형태로 옵니다.
+- `batchCart` 요청 3건(`a`, `b`, `c.user`)이 서버에서 한 번(`getUserCarts([1, 2])`)으로 처리됩니다. `b`와 `c.user`는 같은 User라 중복도 제거됩니다. 같은 요청을 `cart`로 바꾸면 3번 조회합니다.
+- 응답만으로는 차이가 보이지 않습니다. 호출 횟수 측정 결과는 [N+1 문제와 @BatchMapping](graphql-batchmapping.md)을 참고하세요.
+
 ---
 
 ## Search (union, `... on`)

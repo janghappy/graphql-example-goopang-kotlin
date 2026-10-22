@@ -3,6 +3,7 @@ type User {
     name: String!
     email: String!
     cart: Cart!
+    batchCart: Cart!   # @BatchMapping 확인용: cart와 같은 값을 여러 User에 대해 한 번에 조회
     createdAt: DateTime!
 }
 

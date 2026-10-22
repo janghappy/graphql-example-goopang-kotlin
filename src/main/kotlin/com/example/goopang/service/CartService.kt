@@ -22,6 +22,19 @@ class CartService(
 			?: throw ClientException("Cart not found for user: $userId")
 	}
 
+	// 여러 User의 Cart를 한 번에 조회한다 (User.batchCart @BatchMapping용)
+	fun getUserCarts(userIds: List<String>): List<Cart> {
+		val carts = Database.carts.filter { it.user.id in userIds }
+		val itemsByCartId = Database.cartItems
+			.filter { item -> carts.any { it.id == item.cart.id } }
+			.groupBy { it.cart.id }
+
+		return carts.onEach { cart ->
+			cart.items = itemsByCartId[cart.id].orEmpty()
+			cart.totalAmount = cart.items.sumOf { it.product.price * it.quantity }
+		}
+	}
+
 	fun addUserCart(user: User): Cart {
 		return Cart(
 			id = UUID.randomUUID().toString().substring(0, 5),
